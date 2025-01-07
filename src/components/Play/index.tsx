@@ -1,6 +1,5 @@
 import fight from '../../img/banner.jpeg';
-import './main.module.css';
-import Image from 'next/image';
+import './main.css';
 
 function Play() {
   return (
@@ -12,7 +11,7 @@ function Play() {
             <span className='d-block'> Look at It, otherwise It'll die</span>
           </p>
           <div className="new yellow-border mb-3">
-            <Image src={fight} alt="" />
+            <img src={fight} alt="" />
           </div>
         </div>
       </div>
