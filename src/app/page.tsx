@@ -1,101 +1,195 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from 'next/image';
+import { Card, CardContent } from './components/ui/card';
+import { Button } from './components/ui/button';
+import { Heart, Pizza, Coffee, Bath, Gamepad2, Sun } from 'lucide-react';
+
+import sleep from './img/sleep.gif';
+import eat from './img/eat.gif';
+import play from './img/play.gif';
+import shower from './img/shower.gif';
+import happy from './img/happy.gif';
+import dead from './img/dead.gif';
+import Header from "./components/Header/index";
+import Play from "./components/Play/index";
+import { StaticImageData } from 'next/image';
+
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [beast, setBeast] = useState({
+    level: 1,
+    attack: 10,
+    defense: 10,
+    speed: 10,
+    experience: 0,
+    energy: 100,
+    hunger: 100,
+    happiness: 100,
+    hygiene: 100,
+    is_alive: true,
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const [currentImage, setCurrentImage] = useState<StaticImageData>(happy);
+
+  // Animations
+  const showAnimation = (gifPath: StaticImageData) => {
+    setCurrentImage(gifPath);
+    setTimeout(() => {
+      setCurrentImage(happy);
+    }, 3000); // 3 seconds
+  };
+
+  const showDeathAnimation = () => {
+    setCurrentImage(dead);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (beast.is_alive) {
+        setBeast((prevBeast) => ({
+          ...prevBeast,
+          energy: Math.max(0, prevBeast.energy - 5),
+          hunger: Math.max(0, prevBeast.hunger - 5),
+          happiness: Math.max(0, prevBeast.happiness - 5),
+          hygiene: Math.max(0, prevBeast.hygiene - 5),
+        }));
+
+        if (
+          beast.energy === 0 &&
+          beast.hunger === 0 &&
+          beast.happiness === 0 &&
+          beast.hygiene === 0
+        ) {
+          setBeast((prevBeast) => ({ ...prevBeast, is_alive: false }));
+          showDeathAnimation();
+        }
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [beast.is_alive, beast.energy, beast.hunger, beast.happiness, beast.hygiene]);
+
+  return (
+    <>
+      <Header />
+      {beast.is_alive ? (
+        <div className="tamaguchi">
+          <Card>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="scenario flex justify-center items-column">
+                  <h2 className="level">Lvl <span>{beast.level}</span></h2>
+                  <div className="stats">
+                    <div className="item">
+                      <span>{Math.round(beast.attack)}</span>
+                      <p className="info">Attack</p>
+                    </div>
+                    <div className="item">
+                      <span>{Math.round(beast.defense)}</span>
+                      <p className="info">Defense</p>
+                    </div>
+                    <div className="item">
+                      <span>{Math.round(beast.speed)}</span>
+                      <p className="info">Speed</p>
+                    </div>
+                    <div className="item">
+                      <span>{beast.experience}</span>
+                      <p className="info">Experience</p>
+                    </div>
+                  </div>
+                  <Image src={currentImage} alt="Tamagotchi" className="w-40 h-40" />
+                  <Image src={currentImage} alt="Tamagotchi" className="w-40 h-40" />
+                </div>
+                <div className="status">
+                  <div className="item">
+                    <Heart />
+                    <span>{Math.round(beast.energy)}%</span>
+                  </div>
+                  <div className="item">
+                    <Coffee />
+                    <span>{Math.round(beast.hunger)}%</span>
+                  </div>
+                  <div className="item">
+                    <Gamepad2 />
+                    <span>{Math.round(beast.happiness)}%</span>
+                  </div>
+                  <div className="item">
+                    <Bath />
+                    <span>{Math.round(beast.hygiene)}%</span>
+                  </div>
+                </div>
+                <div className="actions">
+                  <Button
+                    onClick={() => {
+                      setBeast((prevBeast) => ({
+                        ...prevBeast,
+                        hunger: Math.min(100, prevBeast.hunger + 20),
+                      }));
+                      showAnimation(eat);
+                    }}
+                  >
+                    <Pizza /> Feed
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setBeast((prevBeast) => ({
+                        ...prevBeast,
+                        energy: Math.min(100, prevBeast.energy + 20),
+                      }));
+                      showAnimation(sleep);
+                    }}
+                  >
+                    <Coffee /> Sleep
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setBeast((prevBeast) => ({
+                        ...prevBeast,
+                        happiness: Math.min(100, prevBeast.happiness + 20),
+                      }));
+                      showAnimation(play);
+                    }}
+                  >
+                    <Gamepad2 /> Play
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setBeast((prevBeast) => ({
+                        ...prevBeast,
+                        hygiene: Math.min(100, prevBeast.hygiene + 20),
+                      }));
+                      showAnimation(shower);
+                    }}
+                  >
+                    <Bath /> Clean
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      ) : (
+        <div className="cover">
+          <Play />
+          <Button
+            onClick={() => {
+              setBeast((prevBeast) => ({
+                ...prevBeast,
+                is_alive: true,
+                energy: 100,
+                hunger: 100,
+                happiness: 100,
+                hygiene: 100,
+              }));
+              setCurrentImage(happy);
+            }}
+          >
+            <Sun /> Revive
+          </Button>
+        </div>
+      )}
+    </>
   );
 }

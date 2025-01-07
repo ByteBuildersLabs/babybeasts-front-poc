@@ -1,0 +1,79 @@
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 15px;
+}
+
+/* .navbar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-image: url("../src/img/title_bar.png");
+  width: 270px;
+  height: 13px;
+  background-repeat: no-repeat;
+} */
+
+.navbar img {
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.navbar h2 {
+  font-family: "Marcellus SC", serif;
+  font-weight: 800;
+  font-size: 24px;
+  margin: 0 0 0 10px;
+}
+
+.navbar h2 span {
+  color: #e4a101;
+}
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+}
+
+.connect-btn {
+  border-radius: 8px;
+  font-family: "Marcellus SC", serif;
+  padding: 5px 10px;
+  color: var(--white);
+  transition: all 0.25s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-center;
+  font-size: 14px;
+  border: 2px solid #e4a101;
+  background-color: #370001;
+  color: #fff;
+}
+
+.connect-btn img {
+  width: 30px;
+  margin-left: 10px;
+}
+
+.navbar-toggler img {
+  margin-top: -20px;
+  transition: all 300ms linear;
+}
+
+.navbar-toggler.collapsed img {
+  transform: rotate(70deg);
+}
+
+/* Bootstrap Overrides */
+.navbar-toggler:focus {
+  box-shadow: unset;
+}

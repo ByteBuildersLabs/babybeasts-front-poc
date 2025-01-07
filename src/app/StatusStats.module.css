@@ -1,0 +1,49 @@
+.status,
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status .item,
+.stats .item {
+  width: 25%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.status span,
+.stats span {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.status p,
+.stats p {
+  text-align: left;
+  font-size: 10px;
+  margin-bottom: 0;
+  margin-top: 2px;
+}
+
+.stats svg,
+.status svg {
+  color: #e4a101;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.status {
+  width: 85%;
+  margin-bottom: 30px;
+}
+
+.stats {
+  width: 60%;
+  position: absolute;
+  z-index: 2;
+  top: -45px;
+  right: 10px;
+}

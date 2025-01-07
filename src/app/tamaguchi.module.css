@@ -1,0 +1,26 @@
+.tamaguchi {
+    padding-top: 40px;
+    overflow-y: auto;
+    background-color: transparent;
+    margin: auto;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .actions svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .actions button {
+    width: 30%;
+    height: 50px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    padding: 0;
+  }
+  

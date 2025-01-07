@@ -1,0 +1,14 @@
+.title {
+    text-align: left;
+    font-family: "Marcellus SC", serif;
+    font-weight: 800;
+    font-size: 18px;
+    margin: 0;
+    padding-right: 5px;
+  }
+  
+  .title span {
+    font-size: 18px;
+    color: #e4a101;
+  }
+  

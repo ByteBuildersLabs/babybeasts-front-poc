@@ -1,0 +1,32 @@
+.scenario {
+    border-radius: 18px;
+    border: 3px solid #e4a101;
+    margin-bottom: 16px;
+    background-image: url('/img/scenario.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 34vh;
+    position: relative;
+  }
+  
+  .level {
+    position: absolute;
+    left: 15px;
+    top: -45px;
+    color: #e4a101;
+  }
+  
+  .level span {
+    color: #fff;
+  }
+  
+  .scenario img {
+    width: 40%;
+    object-fit: contain;
+    position: absolute;
+    bottom: 0;
+    right: 30%;
+    margin: auto;
+  }
+  
