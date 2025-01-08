@@ -27,6 +27,13 @@ function App() {
   } | null>(null);
 
   const [currentImage, setCurrentImage] = useState(happy);
+  const [isGlowing, setIsGlowing] = useState(false);
+
+  // Función para activar la animación y desactivarla después de un tiempo
+  const triggerGlow = () => {
+    setIsGlowing(true); // Activa el glow
+    setTimeout(() => setIsGlowing(false), 3000); // Desactiva después de 3 segundos
+  };
 
   // Animations
   const showAnimationWithoutTimer = (gifPath: string) => {
@@ -106,7 +113,7 @@ function App() {
           <Card>
             <CardContent>
               <div className="space-y-6">
-                <div className="scenario flex justify-center items-column">
+                <div className="scenario flex justify-center items-column" >
                   <h2 className="level">
                     Lvl <span>{beast.level}</span>
                   </h2>
@@ -140,7 +147,10 @@ function App() {
                       <p className="info">Experience</p>
                     </div>
                   </div>
-                  <img src={currentImage} alt="Tamagotchi" className="w-40 h-40" />
+                  {/* Contenedor para la imagen del tamagotchi con animación */}
+                  <div className={`tamagotchi-image-container ${isGlowing ? "glow" : ""}`}>
+                    <img src={currentImage} alt="Tamagotchi" className="w-40 h-40" />
+                  </div>
                 </div>
                 <div className="d-flex justify-content-center">
                   <div className="status">
@@ -183,6 +193,7 @@ function App() {
                         hunger: Math.max(0, prev!.hunger - 10),
                         experience: prev!.experience + 10, // Ganar experiencia
                       }));
+                      triggerGlow();
                       showAnimation(eat);
                     }}
                     disabled={!beast.is_alive}
@@ -191,7 +202,7 @@ function App() {
                     <Pizza /> Feed
                   </Button>
                   <Button
-                    onClick={() => showAnimationWithoutTimer(sleep)}
+                    onClick={() => { showAnimationWithoutTimer(sleep); triggerGlow(); }}
                     disabled={!beast.is_alive}
                     className="flex items-center button"
                   >
@@ -204,6 +215,7 @@ function App() {
                         happiness: Math.min(100, prev!.happiness + 10),
                         experience: prev!.experience + 10, // Ganar experiencia
                       }));
+                      triggerGlow();
                       showAnimation(play);
                     }}
                     disabled={!beast.is_alive}
@@ -218,6 +230,7 @@ function App() {
                         hygiene: Math.min(100, prev!.hygiene + 10),
                         experience: prev!.experience + 5, // Ganar experiencia
                       }));
+                      triggerGlow();
                       showAnimation(shower);
                     }}
                     disabled={!beast.is_alive}
@@ -232,6 +245,7 @@ function App() {
                         energy: Math.min(100, prev!.energy + 20),
                         happiness: Math.min(100, prev!.happiness + 10),
                       }));
+                      triggerGlow();
                       setCurrentImage(happy);
                     }}
                     disabled={!beast.is_alive}
@@ -253,6 +267,7 @@ function App() {
                         hygiene: 50,
                         is_alive: true,
                       });
+                      triggerGlow();
                       setCurrentImage(happy);
                     }}
                     disabled={beast.is_alive}
