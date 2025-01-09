@@ -33,12 +33,12 @@ function Header({ onConnect }: { onConnect: () => void }) {
           Baby <span>Beast</span>
         </h2>
       </div>
-      <ControllerConnectButton onConnect={onConnect} />
       <div className="sound-controls">
         <button onClick={toggleMute} className="sound-button">
           {isMuted ? "🔇" : "🔊"}
         </button>
       </div>
+      <ControllerConnectButton onConnect={onConnect} />
     </nav>
   );
 }
