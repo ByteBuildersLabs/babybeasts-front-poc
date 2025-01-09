@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Heart, Pizza, Coffee, Bath, Gamepad2, Sun, Swords, ShieldPlus, TestTubeDiagonal, CircleGauge } from "lucide-react";
+import { Heart, Pizza, Coffee, Bath, Gamepad2, Sun, Swords, ShieldPlus, TestTubeDiagonal, CircleGauge, Moon } from "lucide-react";
 import { Card, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import Header from "../Header/index.tsx";
@@ -27,17 +27,26 @@ function Tamagotchi() {
   });
 
   const [currentImage, setCurrentImage] = useState(happy);
+  const [isGlowing, setIsGlowing] = useState(false);
+
+  // Función para activar la animación y desactivarla después de un tiempo
+  const triggerGlow = () => {
+    setIsGlowing(true);
+    setTimeout(() => setIsGlowing(false), 3000);
+  };
 
   // Animaciones
   const showAnimationWithoutTimer = (gifPath: string) => {
     setCurrentImage(gifPath);
   };
+  
   const showAnimation = (gifPath: string) => {
     setCurrentImage(gifPath);
     setTimeout(() => {
       setCurrentImage(happy);
-    }, 3000); // Duración de la animación (3 segundos)
+    }, 3000);
   };
+  
   const showDeathAnimation = () => {
     setCurrentImage(dead);
   };
@@ -63,7 +72,7 @@ function Tamagotchi() {
 
         return updatedBeast;
       });
-    }, 5000); // Cada 5 segundos
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -76,7 +85,9 @@ function Tamagotchi() {
 
   return (
     <>
-      <Header />
+      <Header onConnect={function (): void {
+        throw new Error("Function not implemented.");
+      } } />
       <div className="tamaguchi">
         {beast && (
           <Card>
@@ -117,7 +128,9 @@ function Tamagotchi() {
                       <p className="info">Experience</p>
                     </div>
                   </div>
-                  <img src={currentImage} alt="Tamagotchi" className="w-40 h-40" />
+                  <div className={`tamagotchi-image-container ${isGlowing ? "glow" : ""}`}>
+                    <img src={currentImage} alt="Tamagotchi" className="w-40 h-40" />
+                  </div>
                 </div>
 
                 {/* Estado del tamagotchi */}
@@ -162,8 +175,9 @@ function Tamagotchi() {
                         ...prev,
                         energy: Math.min(100, prev.energy + 10),
                         hunger: Math.max(0, prev.hunger - 10),
-                        experience: prev.experience + 10, // Ganar experiencia
+                        experience: prev.experience + 10,
                       }));
+                      triggerGlow();
                       showAnimation(eat);
                     }}
                     disabled={!beast.is_alive}
@@ -172,11 +186,14 @@ function Tamagotchi() {
                     <Pizza /> Feed
                   </Button>
                   <Button
-                    onClick={() => showAnimationWithoutTimer(sleep)}
+                    onClick={() => {
+                      showAnimationWithoutTimer(sleep);
+                      triggerGlow();
+                    }}
                     disabled={!beast.is_alive}
                     className="flex items-center button"
                   >
-                    <Coffee /> Sleep
+                    <Moon/> Sleep
                   </Button>
                   <Button
                     onClick={() => {
@@ -185,6 +202,7 @@ function Tamagotchi() {
                         happiness: Math.min(100, prev.happiness + 10),
                         experience: prev.experience + 10,
                       }));
+                      triggerGlow();
                       showAnimation(play);
                     }}
                     disabled={!beast.is_alive}
@@ -199,6 +217,7 @@ function Tamagotchi() {
                         hygiene: Math.min(100, prev.hygiene + 10),
                         experience: prev.experience + 5,
                       }));
+                      triggerGlow();
                       showAnimation(shower);
                     }}
                     disabled={!beast.is_alive}
@@ -213,6 +232,7 @@ function Tamagotchi() {
                         energy: Math.min(100, prev.energy + 20),
                         happiness: Math.min(100, prev.happiness + 10),
                       }));
+                      triggerGlow();
                       setCurrentImage(happy);
                     }}
                     disabled={!beast.is_alive}
@@ -234,6 +254,7 @@ function Tamagotchi() {
                         hygiene: 50,
                         is_alive: true,
                       });
+                      triggerGlow();
                       setCurrentImage(happy);
                     }}
                     disabled={beast.is_alive}
