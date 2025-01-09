@@ -1,17 +1,44 @@
+import React, { useState } from 'react';
+import useSound from 'use-sound';
 import monster from '../../img/logo.jpeg';
 import './main.css';
+import backgroundMusic from '../sounds/happybeast.mp3';
 
 function Header() {
+  const [isMuted, setIsMuted] = useState(false); // Estado para controlar el mute
+  const [play, { stop, sound }] = useSound(backgroundMusic, {
+    loop: true,
+    volume: isMuted ? 0 : 0.5, // Ajusta el volumen dinámicamente
+  });
+
+  React.useEffect(() => {
+    play(); // Reproduce el sonido al cargar el componente
+    return () => stop(); // Detiene el sonido al desmontar
+  }, [play, stop]);
+
+  const toggleMute = () => {
+    if (sound) {
+      setIsMuted((prev) => !prev); // Alterna entre mute y unmute
+    }
+  };
+
   return (
     <>
       <nav className="navbar">
-        <div className='logo'>
-          <a href="/"><img src={monster} alt="Logo" /></a>
+        <div className="logo">
+          <a href="/">
+            <img src={monster} alt="Logo" />
+          </a>
           <h2>Baby <span>Beast</span></h2>
+        </div>
+        <div className="sound-controls">
+          <button onClick={toggleMute} className="sound-button">
+            {isMuted ? '🔇' : '🔊'}
+          </button>
         </div>
       </nav>
     </>
-  )
+  );
 }
 
 export default Header;
