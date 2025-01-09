@@ -77,3 +77,33 @@
 .navbar-toggler:focus {
   box-shadow: unset;
 }
+
+.sound-controls {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.sound-button {
+  background-color: rgba(0, 0, 0, 0.2); /* Fondo translúcido */
+  color: rgba(255, 255, 255, 0.5); /* Texto translúcido */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sound-button span {
+  color: white; /* Emoji completamente visible */
+  font-size: 16px;
+}
+
+.sound-button:hover {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo más visible al hacer hover */
+  color: rgba(255, 255, 255, 0.9); /* Texto más visible en hover */
+}

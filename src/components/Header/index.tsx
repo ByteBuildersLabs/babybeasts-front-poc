@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import useSound from 'use-sound';
-import monster from '../../img/logo.jpeg';
-import './main.css';
-import backgroundMusic from '../sounds/happybeast.mp3';
+import monster from "../../img/logo.jpeg";
+import ControllerConnectButton from "../CartridgeController/ControllerConnectButton";
+import "./main.css";
+import React, { useState } from "react";
+import useSound from "use-sound";
+import backgroundMusic from "../sounds/happybeast.mp3";
 
-function Header() {
+function Header({ onConnect }: { onConnect: () => void }) {
   const [isMuted, setIsMuted] = useState(false); // Estado para controlar el mute
   const [play, { stop, sound }] = useSound(backgroundMusic, {
     loop: true,
@@ -23,21 +24,22 @@ function Header() {
   };
 
   return (
-    <>
-      <nav className="navbar">
-        <div className="logo">
-          <a href="/">
-            <img src={monster} alt="Logo" />
-          </a>
-          <h2>Baby <span>Beast</span></h2>
-        </div>
-        <div className="sound-controls">
-          <button onClick={toggleMute} className="sound-button">
-            {isMuted ? '🔇' : '🔊'}
-          </button>
-        </div>
-      </nav>
-    </>
+    <nav className="navbar">
+      <div className="logo">
+        <a href="/">
+          <img src={monster} alt="Logo" />
+        </a>
+        <h2>
+          Baby <span>Beast</span>
+        </h2>
+      </div>
+      <ControllerConnectButton onConnect={onConnect} />
+      <div className="sound-controls">
+        <button onClick={toggleMute} className="sound-button">
+          {isMuted ? "🔇" : "🔊"}
+        </button>
+      </div>
+    </nav>
   );
 }
 
