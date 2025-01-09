@@ -1,0 +1,24 @@
+.beasts-bag {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: space-between;
+  width: 95%;
+  height: 100%;
+  max-width: 400px;
+  margin: auto;
+  z-index: 2;
+}
+
+.beasts-bag .eggs {
+  width: 100%;
+}
+
+.beasts {
+  width: 31%;
+  margin: 0 auto 10px;
+  background-color: rgb(44, 0, 1);
+  border: 3px solid rgb(254, 192, 45);
+  overflow: hidden;
+  border-radius: 15px;
+}
