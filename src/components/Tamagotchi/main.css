@@ -1,0 +1,107 @@
+.tamaguchi {
+  padding-top: 40px;
+  overflow-y: auto; 
+  background-color: transparent;
+  margin: auto;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.actions svg {
+  width: 20px;
+  height: 20px;
+}
+
+.actions button {
+  width: 30%;
+  height: 50px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  padding: 0;
+}
+
+.scenario {
+  border-radius: 18px;
+  border: 3px solid #e4a101;
+  margin-bottom: 16px;
+  background-image: url('../../img/scenario.jpeg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 34vh;
+  position: relative;
+}
+
+.level {
+  position: absolute;
+  left: 15px;
+  top: -45px;
+  color: #e4a101;
+}
+
+.level span {
+  color: #fff;
+}
+
+.scenario img {
+  width: 40%;
+  object-fit: contain;
+  position: absolute;
+  bottom: 0;
+  right: 30%;
+  margin: auto;
+}
+
+.status,
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status .item,
+.stats .item {
+  width: 25%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.status span,
+.stats span {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.status p,
+.stats p {
+  text-align: left;
+  font-size: 10px;
+  margin-bottom: 0;
+  margin-top: 2px;
+}
+
+.stats svg,
+.status svg {
+  color: #e4a101;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.status {
+  width: 85%;
+  margin-bottom: 30px;
+}
+
+.stats {
+  width: 60%;
+  position: absolute;
+  z-index: 2;
+  top: -45px;
+  right: 10px;
+}
