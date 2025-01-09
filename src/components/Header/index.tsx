@@ -6,20 +6,20 @@ import useSound from "use-sound";
 import backgroundMusic from "../sounds/happybeast.mp3";
 
 function Header({ onConnect }: { onConnect: () => void }) {
-  const [isMuted, setIsMuted] = useState(false); // Estado para controlar el mute
+  const [isMuted, setIsMuted] = useState(false); // State to control mute
   const [play, { stop, sound }] = useSound(backgroundMusic, {
     loop: true,
-    volume: isMuted ? 0 : 0.5, // Ajusta el volumen dinámicamente
+    volume: isMuted ? 0 : 0.5, // Adjust volume dynamically
   });
 
   React.useEffect(() => {
-    play(); // Reproduce el sonido al cargar el componente
-    return () => stop(); // Detiene el sonido al desmontar
+    play(); // Play sound when component loads
+    return () => stop(); // Stop sound when component unmounts
   }, [play, stop]);
 
   const toggleMute = () => {
     if (sound) {
-      setIsMuted((prev) => !prev); // Alterna entre mute y unmute
+      setIsMuted((prev) => !prev); // Toggle between mute and unmute
     }
   };
 
