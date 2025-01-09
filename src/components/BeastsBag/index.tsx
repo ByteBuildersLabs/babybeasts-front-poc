@@ -20,7 +20,9 @@ function BeastsBag() {
 
   return (
     <>
-      <Header />
+      <Header onConnect={function (): void {
+        throw new Error("Function not implemented.");
+      } } />
       <div className="beasts-bag">
         <div className="eggs">
           <p className={"title text-center mb-4"}>
