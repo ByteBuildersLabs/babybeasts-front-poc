@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Heart, Pizza, Coffee, Bath, Gamepad2, Sun, Swords, ShieldPlus, TestTubeDiagonal, CircleGauge, Moon } from "lucide-react";
 import { Card, CardContent } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
+import { toast, Toaster} from "react-hot-toast";
 import Header from "../Header/index.tsx";
 import sleep from "../../img/sleep.gif";
 import eat from "../../img/eat.gif";
@@ -32,7 +33,7 @@ function Tamagotchi() {
   // Función para activar la animación y desactivarla después de un tiempo
   const triggerGlow = () => {
     setIsGlowing(true);
-    setTimeout(() => setIsGlowing(false), 3000);
+    setTimeout(() => setIsGlowing(false), 4000);
   };
 
   // Animaciones
@@ -49,6 +50,23 @@ function Tamagotchi() {
   
   const showDeathAnimation = () => {
     setCurrentImage(dead);
+  };
+
+  // Función para simular una transacción
+  const simulateTransaction = async (action: string) => {
+    // Generar un hash aleatorio para simular la transacción
+    const mockHash = `0x${Math.random().toString(16).substr(2, 6)}...${Math.random().toString(16).substr(2, 3)}`;
+
+    // Simular transacción con toast.promise
+    await toast.promise(
+      new Promise((resolve) => setTimeout(resolve, 2000)), // Simula el delay de la transacción
+      {
+        loading: `Transaction in progress for ${action}...`,
+        success: `${action} has been done successfully: ${mockHash}`,
+        error: `Failed to perform ${action}. Please try again.`,
+      }
+    );
+    return mockHash;
   };
 
   // Simulación de disminución de estadísticas periódicamente
@@ -87,7 +105,8 @@ function Tamagotchi() {
     <>
       <Header onConnect={function (): void {
         throw new Error("Function not implemented.");
-      } } />
+      }} />
+      <Toaster position="bottom-right" reverseOrder={false} />
       <div className="tamaguchi">
         {beast && (
           <Card>
@@ -170,15 +189,20 @@ function Tamagotchi() {
                 {/* Acciones */}
                 <div className="actions mb-0">
                   <Button
-                    onClick={() => {
-                      setBeast((prev) => ({
-                        ...prev,
-                        energy: Math.min(100, prev.energy + 10),
-                        hunger: Math.max(0, prev.hunger - 10),
-                        experience: prev.experience + 10,
-                      }));
-                      triggerGlow();
-                      showAnimation(eat);
+                    onClick={async () => {
+                      try {
+                        triggerGlow();
+                        await simulateTransaction('feed');
+                        setBeast((prev) => ({
+                          ...prev,
+                          energy: Math.min(100, prev.energy + 10),
+                          hunger: Math.max(0, prev.hunger - 10),
+                          experience: prev.experience + 10,
+                        }));
+                        showAnimation(eat);
+                      } catch (error) {
+                        toast.error("Transaction failed");
+                      }
                     }}
                     disabled={!beast.is_alive}
                     className="flex items-center button"
@@ -186,24 +210,34 @@ function Tamagotchi() {
                     <Pizza /> Feed
                   </Button>
                   <Button
-                    onClick={() => {
-                      showAnimationWithoutTimer(sleep);
-                      triggerGlow();
+                    onClick={async () => {
+                      try {
+                        triggerGlow();
+                        await simulateTransaction('sleep');
+                        showAnimationWithoutTimer(sleep);
+                      } catch (error) {
+                        toast.error("Transaction failed");
+                      }
                     }}
                     disabled={!beast.is_alive}
                     className="flex items-center button"
                   >
-                    <Moon/> Sleep
+                    <Moon /> Sleep
                   </Button>
                   <Button
-                    onClick={() => {
-                      setBeast((prev) => ({
-                        ...prev,
-                        happiness: Math.min(100, prev.happiness + 10),
-                        experience: prev.experience + 10,
-                      }));
-                      triggerGlow();
-                      showAnimation(play);
+                    onClick={async () => {
+                      try {
+                        triggerGlow();
+                        await simulateTransaction('play');
+                        setBeast((prev) => ({
+                          ...prev,
+                          happiness: Math.min(100, prev.happiness + 10),
+                          experience: prev.experience + 10,
+                        }));
+                        showAnimation(play);
+                      } catch (error) {
+                        toast.error("Transaction failed");
+                      }
                     }}
                     disabled={!beast.is_alive}
                     className="flex items-center button"
@@ -211,14 +245,19 @@ function Tamagotchi() {
                     <Gamepad2 /> Play
                   </Button>
                   <Button
-                    onClick={() => {
-                      setBeast((prev) => ({
-                        ...prev,
-                        hygiene: Math.min(100, prev.hygiene + 10),
-                        experience: prev.experience + 5,
-                      }));
-                      triggerGlow();
-                      showAnimation(shower);
+                    onClick={async () => {
+                      try {
+                        triggerGlow();
+                        await simulateTransaction('clean');
+                        setBeast((prev) => ({
+                          ...prev,
+                          hygiene: Math.min(100, prev.hygiene + 10),
+                          experience: prev.experience + 5,
+                        }));
+                        showAnimation(shower);
+                      } catch (error) {
+                        toast.error("Transaction failed");
+                      }
                     }}
                     disabled={!beast.is_alive}
                     className="flex items-center button"
@@ -226,14 +265,19 @@ function Tamagotchi() {
                     <Bath /> Clean
                   </Button>
                   <Button
-                    onClick={() => {
-                      setBeast((prev) => ({
-                        ...prev,
-                        energy: Math.min(100, prev.energy + 20),
-                        happiness: Math.min(100, prev.happiness + 10),
-                      }));
-                      triggerGlow();
-                      setCurrentImage(happy);
+                    onClick={async () => {
+                      try {
+                        triggerGlow();
+                        await simulateTransaction('wakeup');
+                        setBeast((prev) => ({
+                          ...prev,
+                          energy: Math.min(100, prev.energy + 20),
+                          happiness: Math.min(100, prev.happiness + 10),
+                        }));
+                        setCurrentImage(happy);
+                      } catch (error) {
+                        toast.error("Transaction failed");
+                      }
                     }}
                     disabled={!beast.is_alive}
                     className="flex items-center button"
@@ -241,21 +285,26 @@ function Tamagotchi() {
                     <Sun /> Wake Up
                   </Button>
                   <Button
-                    onClick={() => {
-                      setBeast({
-                        level: 1,
-                        attack: 10,
-                        defense: 10,
-                        speed: 10,
-                        experience: 0,
-                        energy: 50,
-                        hunger: 50,
-                        happiness: 50,
-                        hygiene: 50,
-                        is_alive: true,
-                      });
-                      triggerGlow();
-                      setCurrentImage(happy);
+                    onClick={async () => {
+                      try {
+                        triggerGlow();
+                        await simulateTransaction('revive');
+                        setBeast({
+                          level: 1,
+                          attack: 10,
+                          defense: 10,
+                          speed: 10,
+                          experience: 0,
+                          energy: 50,
+                          hunger: 50,
+                          happiness: 50,
+                          hygiene: 50,
+                          is_alive: true,
+                        });
+                        setCurrentImage(happy);
+                      } catch (error) {
+                        toast.error("Transaction failed");
+                      }
                     }}
                     disabled={beast.is_alive}
                     className="flex items-center button"
